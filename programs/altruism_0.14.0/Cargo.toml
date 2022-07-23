@@ -18,3 +18,4 @@ default = []
 anchor-lang = { path = "../../dependencies/lang" }
 anchor-spl = { path = "../../dependencies/spl" }
 marinade-onchain-helper = { path = "../../dependencies/marinade-onchain-helper" }
+marinade-finance = { path = "../marinade-finance" }
