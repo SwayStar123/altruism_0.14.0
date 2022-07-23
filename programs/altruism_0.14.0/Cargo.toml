@@ -1,0 +1,20 @@
+[package]
+name = "altruism_0_14_0"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "altruism_0_14_0"
+
+[features]
+no-entrypoint = []
+no-idl = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = { path = "../../dependencies/lang" }
+anchor-spl = { path = "../../dependencies/spl" }
+marinade-onchain-helper = { git = "https://github.com/SwayStar123/marinade-onchain-helper" }
