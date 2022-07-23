@@ -17,4 +17,4 @@ default = []
 [dependencies]
 anchor-lang = { path = "../../dependencies/lang" }
 anchor-spl = { path = "../../dependencies/spl" }
-marinade-onchain-helper = { git = "https://github.com/SwayStar123/marinade-onchain-helper" }
+marinade-onchain-helper = { path = "../../dependencies/marinade-onchain-helper" }
