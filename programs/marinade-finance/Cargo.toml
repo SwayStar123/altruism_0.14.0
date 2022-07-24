@@ -9,7 +9,6 @@ crate-type = ["cdylib", "lib"]
 name = "marinade_finance"
 doctest = false
 
-
 [dependencies]
 anchor-lang = { path = "../../dependencies/lang" }
 anchor-spl = { path = "../../dependencies/spl" }
