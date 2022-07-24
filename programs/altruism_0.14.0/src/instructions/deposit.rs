@@ -1,4 +1,5 @@
 use anchor_lang::prelude::*;
+use anchor_spl::token::{mint_to, MintTo};
 
 use marinade_onchain_helper::{cpi_context_accounts::MarinadeDeposit, cpi_util};
 
@@ -10,6 +11,8 @@ pub fn deposit(ctx: Context<Deposit>, amount: u64) -> ProgramResult {
     let data = marinade_finance::instruction::Deposit { lamports: amount };
     // call Marinade
     cpi_util::invoke_signed(cpi_ctx, data)?;
+
+    mint_to(ctx.accounts.into_spl_ctx(), amount)?;
 
     Ok(())
 }
@@ -39,12 +42,25 @@ pub struct Deposit<'info> {
     pub msol_mint_authority: AccountInfo<'info>,
     pub system_program: AccountInfo<'info>,
     pub token_program: AccountInfo<'info>,
-    // accounts added are: Marinade main program ID & referral_state
+    // accounts added are: Marinade main program ID
     #[account(address = marinade_finance::ID)]
     pub marinade_finance_program: AccountInfo<'info>,
+
+    pub token_account: AccountInfo<'info>,
+    pub mint: AccountInfo<'info>,
 }
 
 impl<'a, 'b, 'c, 'info> Deposit<'info> {
+    pub fn into_spl_ctx(&self) -> CpiContext<'a, 'b, 'c, 'info, MintTo<'info>> {
+        let cpi_accounts = MintTo { 
+            mint: self.mint.clone(),
+            to: self.token_account.clone(),
+            authority: self.authority.clone()
+        };
+    
+        CpiContext::new(self.token_program.clone(), cpi_accounts)
+    }
+
     pub fn into_marinade_ctx(&self) -> CpiContext<'a, 'b, 'c, 'info, MarinadeDeposit<'info>> {
         let cpi_accounts = MarinadeDeposit {
             state: self.state.clone(),
